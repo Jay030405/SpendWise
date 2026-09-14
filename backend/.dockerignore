@@ -1,0 +1,18 @@
+# Environment / secrets
+.env
+.env.*
+
+# Git
+.git
+.gitignore
+
+# Go binaries
+*.exe
+spendwise-backend
+
+# Logs
+*.log
+
+# IDE
+.vscode
+.idea
