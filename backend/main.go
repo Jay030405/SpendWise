@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
 	"spendwise-backend/config"
 	"spendwise-backend/handlers"
@@ -15,9 +16,20 @@ func enableCORS(next http.Handler) http.Handler {
 
 		origin := r.Header.Get("Origin")
 
-		// Allow both Vite development server and Docker/Nginx frontend.
-		if origin == "http://localhost:5173" ||
-			origin == "http://localhost:3000" {
+		frontendURL := os.Getenv("FRONTEND_URL")
+
+		// Production frontend URL.
+		if frontendURL != "" && origin == frontendURL {
+			w.Header().Set(
+				"Access-Control-Allow-Origin",
+				origin,
+			)
+		}
+
+		// Local development / Docker frontend.
+		if frontendURL == "" &&
+			(origin == "http://localhost:5173" ||
+				origin == "http://localhost:3000") {
 
 			w.Header().Set(
 				"Access-Control-Allow-Origin",
@@ -276,12 +288,23 @@ func main() {
 
 	handler := enableCORS(mux)
 
+	// ============================================
+	// Server Port
+	// ============================================
+
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "8080"
+	}
+
 	log.Println(
-		"SpendWise backend is running on http://localhost:8080",
+		"SpendWise backend is running on port",
+		port,
 	)
 
 	err := http.ListenAndServe(
-		":8080",
+		":"+port,
 		handler,
 	)
 
