@@ -6,6 +6,17 @@ The application provides user authentication, expense management, category-wise 
 
 ---
 
+## 🚀 Live Demo
+
+**Live Application:**  
+https://spendwise-frontend-jtv8.onrender.com
+
+**Backend API:**  
+https://spendwise-ywox.onrender.com
+
+**Health Check:**  
+https://spendwise-ywox.onrender.com/api/health
+
 ## 🚀 Features
 
 - 🔐 User Registration
